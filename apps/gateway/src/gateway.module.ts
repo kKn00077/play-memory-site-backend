@@ -3,6 +3,7 @@ import { GatewayController } from './gateway.controller';
 import { GatewayService } from './gateway.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { DatabaseModule } from '@app/common';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import * as Joi from 'joi';
                 MONGODB_URI: Joi.string().required(),
             }),
         }),
+        DatabaseModule,
     ],
     controllers: [GatewayController],
     providers: [GatewayService],

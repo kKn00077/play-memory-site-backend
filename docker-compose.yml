@@ -1,0 +1,88 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+# https://github.com/bitnami/containers/blob/main/bitnami/mongodb/docker-compose-replicaset.yml
+
+version: '3'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: dev
+    command: npm run start:dev gateway
+    env_file:
+      - ./apps/gateway/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3000:3000'
+    networks:
+      - default
+
+  mongodb-primary:
+    image: docker.io/bitnami/mongodb:latest
+    hostname: mongodb-primary
+    environment:
+      - MONGODB_REPLICA_SET_NAME=replicaset
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_USER=admin
+      - MONGODB_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
+      - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
+    volumes:
+      - 'mongodb_master_data:/bitnami/mongodb'
+    ports:
+      - '27017:27017'
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  mongodb-secondary:
+    image: docker.io/bitnami/mongodb:latest
+    hostname: mongodb-secondary
+    depends_on:
+      mongodb-primary: 
+        condition: service_healthy
+    environment:
+      - MONGODB_REPLICA_SET_NAME=replicaset
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_USER=admin
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
+      - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
+    networks:
+      - default
+
+  mongodb-arbiter:
+    image: docker.io/bitnami/mongodb:latest
+    hostname: mongodb-arbiter
+    depends_on:
+      mongodb-primary: 
+        condition: service_healthy
+    environment:
+      - MONGODB_REPLICA_SET_NAME=replicaset
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGODB_REPLICA_SET_MODE=arbiter
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_USER=admin
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
+      - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
+    networks:
+      - default
+
+volumes:
+  mongodb_master_data:
+    driver: local

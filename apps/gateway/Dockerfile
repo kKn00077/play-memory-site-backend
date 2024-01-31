@@ -17,11 +17,11 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY --from=dev /usr/src/app/package*.json ./
 
-RUN npm install --only=prod
+RUN npm install --only=prod --omit=dev
 
-COPY . .
+COPY --from=dev /usr/src/app ./
 
 COPY --from=dev /usr/src/app/dist ./dist
 

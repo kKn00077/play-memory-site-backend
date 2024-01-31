@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: APACHE-2.0
 # https://github.com/bitnami/containers/blob/main/bitnami/mongodb/docker-compose-replicaset.yml
 
+# 개발환경 docker-compose.yml
+
 version: '3'
 
 services:

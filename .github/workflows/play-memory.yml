@@ -106,7 +106,7 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         port: ${{ secrets.EC2_PORT }}
         source: "./docker-compose.dev.yml"
-        target: "/home/${{ secrets.EC2_USERNAME }}/docker-compose.dev.yml"
+        target: "/home/${{ secrets.EC2_USERNAME }}/docker-compose"
 
     # Deploy to EC2(Dev Server)
     - name: Deploy to EC2
@@ -117,6 +117,6 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         port: ${{ secrets.EC2_PORT }}
         script: |
-
+          cd /home/${{ secrets.EC2_USERNAME }}/docker-compose
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
           docker compose -f docker-compose.dev.yml up -d --build

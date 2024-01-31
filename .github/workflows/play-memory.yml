@@ -94,8 +94,8 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway
           
     # Docker Images Check
-    - name: Docker Images Check
-      run: docker images
+    # - name: Docker Images Check
+    #   run: docker images
 
     # Copy docker-compose.dev.yml to EC2
     - name: Copy docker-compose.dev.yml to EC2

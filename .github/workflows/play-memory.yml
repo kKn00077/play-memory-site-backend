@@ -91,7 +91,11 @@ jobs:
         context: .
         file: ./apps/gateway/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway
+          
+    # Docker Images Check
+    - name: Docker Images Check
+      run: docker images
 
     # Deploy to EC2(Dev Server)
     - name: Deploy to EC2
@@ -103,4 +107,4 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         script: |
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
-          docker-compose -f docker-compose.dev.yml up -d
+          docker compose -f docker-compose.dev.yml up -d --build gateway

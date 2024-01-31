@@ -91,7 +91,7 @@ jobs:
         context: .
         file: ./apps/gateway/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:lastest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
 
     # Deploy to EC2(Dev Server)
     - name: Deploy to EC2

@@ -97,6 +97,17 @@ jobs:
     - name: Docker Images Check
       run: docker images
 
+    # Copy docker-compose.dev.yml to EC2
+    - name: Copy docker-compose.dev.yml to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_KEY }}
+        port: ${{ secrets.EC2_PORT }}
+        source: "./docker-compose.dev.yml"
+        target: "/home/${{ secrets.EC2_USERNAME }}/docker-compose.dev.yml"
+
     # Deploy to EC2(Dev Server)
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.3
@@ -106,5 +117,6 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         port: ${{ secrets.EC2_PORT }}
         script: |
+
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
-          docker compose -f docker-compose.dev.yml up -d --build gateway
+          docker compose -f docker-compose.dev.yml up -d --build

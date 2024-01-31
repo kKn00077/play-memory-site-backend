@@ -10,6 +10,7 @@ services:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
       target: dev
+    image: memorydev/nest-gateway:latest
     command: npm run start:dev gateway
     env_file:
       - ./apps/gateway/.env

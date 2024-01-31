@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "main", "dev" ]
 
+# 테스트 결과 작성을 위한 쓰기권한
+permissions: write-all
+
 jobs:
   build_dev:
     # dev 브랜치에 push, pull request가 발생할 경우 실행
@@ -73,4 +76,30 @@ jobs:
             title: '[CI FAILED] 빌드 혹은 테스트 실패',
             body: '빌드 혹은 테스트 실패로 인해 배포 자동화를 할 수 없습니다.'
           })
-      
+        
+    # Login to Docker Hub
+    - name: Docker Hub Login
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # Build and push Docker image - dev - gateway
+    - name: Build and push Docker image - dev - gateway
+      uses: docker/build-push-action@v5
+      with:
+        context: ./gateway
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:lastest
+
+    # Deploy to EC2
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_KEY }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
+          docker-compose -f docker-compose.yml up -d

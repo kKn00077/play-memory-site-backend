@@ -91,6 +91,11 @@ jobs:
     #     username: ${{ secrets.DOCKERHUB_USERNAME }}
     #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+    # 대문자로 인한 오류 방지를 위해 github REPO_OWNER 값을 소문자로 변환
+    - name: Convert repository owner to lowercase
+      id: repo_owner
+      run: echo "::set-output name=lowercase::$(echo ${{ env.REPO_OWNER }} | awk '{print tolower($0)}')"
+
     # Login to Docker Hub
     - name: Login to GHCR
       uses: docker/login-action@v3.0.0
@@ -104,7 +109,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ghcr.io/${{ env.REPO_OWNER }}/nest-gateway-dev
+        images: ghcr.io/${{ steps.repo_owner.outputs.lowercase }}/nest-gateway-dev
         tags: |
           type=raw,value=latest
 
@@ -141,5 +146,5 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         script: |
           cd /home/${{ secrets.EC2_USERNAME }}/docker-compose
-          docker pull ghcr.io/${{ env.REPO_OWNER }}/nest-gateway:latest
+          docker pull ghcr.io/${{ steps.repo_owner.outputs.lowercase }}/nest-gateway:latest
           docker compose -f docker-compose.dev.yml up -d --build

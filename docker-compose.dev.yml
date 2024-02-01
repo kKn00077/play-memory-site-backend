@@ -83,5 +83,7 @@ services:
       - default
 
 volumes:
+  app:
+    driver: local
   mongodb_master_data:
     driver: local

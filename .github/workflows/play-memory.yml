@@ -14,12 +14,17 @@ permissions: write-all
 
 env:
   REGISTRY: ghcr.io
+  REPO_OWNER: ${{ github.repository_owner }}
 
 jobs:
   build_dev:
     # dev 브랜치에 push, pull request가 발생할 경우 실행
     if: ${{ contains(github.ref_name, 'dev') }}
     runs-on: ubuntu-22.04 # OS 실행환경 지정
+
+    permissions: # 권한 추가
+      contents: read
+      packages: write
 
     strategy:
       matrix:
@@ -100,7 +105,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway-dev
+        images: ghcr.io/${{ env.REPO_OWNER }}/nest-gateway-dev
         tags: |
           type=raw,value=latest
 
@@ -137,5 +142,5 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         script: |
           cd /home/${{ secrets.EC2_USERNAME }}/docker-compose
-          docker pull ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
+          docker pull ghcr.io/${{ env.REPO_OWNER }}/nest-gateway:latest
           docker compose -f docker-compose.dev.yml up -d --build

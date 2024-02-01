@@ -12,6 +12,9 @@ on:
 # 테스트 결과 작성을 위한 쓰기권한
 permissions: write-all
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   build_dev:
     # dev 브랜치에 push, pull request가 발생할 경우 실행
@@ -77,12 +80,29 @@ jobs:
             body: '빌드 혹은 테스트 실패로 인해 배포 자동화를 할 수 없습니다.'
           })
         
+    # Login to Docker Hub - not used ghcr.io
+    # - name: Docker Hub Login
+    #   uses: docker/login-action@v3.0.0
+    #   with:
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     # Login to Docker Hub
-    - name: Docker Hub Login
+    - name: Login to GHCR
       uses: docker/login-action@v3.0.0
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # Extract metadata (tags, labels) for Docker
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway-dev
+        tags: |
+          type=raw,value=latest
 
     # Build and push Docker image - dev - gateway
     - name: Build and push Docker image - dev - gateway
@@ -91,11 +111,10 @@ jobs:
         context: .
         file: ./apps/gateway/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        # tags: ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway
           
-    # Docker Images Check
-    # - name: Docker Images Check
-    #   run: docker images
 
     # Copy docker-compose.dev.yml to EC2
     - name: Copy docker-compose.dev.yml to EC2
@@ -118,5 +137,5 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
         script: |
           cd /home/${{ secrets.EC2_USERNAME }}/docker-compose
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
+          docker pull ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/nest-gateway:latest
           docker compose -f docker-compose.dev.yml up -d --build

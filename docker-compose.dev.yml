@@ -8,7 +8,7 @@ version: '3'
 
 services:
   gateway:
-    image: memorydev/nest-gateway:latest
+    image: ghcr.io/memorydev/nest-gateway-dev:latest
     command: npm run start:dev gateway
     env_file:
       - ./apps/gateway/.env

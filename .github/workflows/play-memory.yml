@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-22.04 # OS 실행환경 지정
 
     permissions: # 권한 추가
-      contents: read
       packages: write
 
     strategy:

@@ -147,5 +147,5 @@ jobs:
         script: |
           cd /home/${{ secrets.EC2_USERNAME }}/docker-compose
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ steps.repo_owner.outputs.lowercase }} --password-stdin
-          docker pull ghcr.io/${{ steps.repo_owner.outputs.lowercase }}/nest-gateway:latest
+          docker pull ghcr.io/${{ steps.repo_owner.outputs.lowercase }}/nest-gateway-dev:latest
           docker compose -f docker-compose.dev.yml up -d --build

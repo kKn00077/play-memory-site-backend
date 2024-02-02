@@ -149,3 +149,4 @@ jobs:
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ steps.repo_owner.outputs.lowercase }} --password-stdin
           docker pull ghcr.io/${{ steps.repo_owner.outputs.lowercase }}/nest-gateway-dev:latest
           docker compose -f docker-compose.dev.yml up -d --build
+          docker logout ghcr.io

@@ -15,7 +15,7 @@ services:
     image: memorydev/nest-gateway:latest
     command: npm run start:dev gateway
     env_file:
-      - ./apps/gateway/.env
+      - ./apps/gateway/.env.local
     depends_on:
       - mongodb-primary
       - mongodb-secondary

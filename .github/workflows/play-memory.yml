@@ -96,7 +96,7 @@ jobs:
     # Create .env.dev file
     - name: Create .env file
       env:
-        MONGODB_URI: mongodb+srv://${{secrets.DATABASE_ID}}:${{secrets.DATABASE_PW}}@${{ secrets.EC2_HOST }}/?retryWrites=true&w=majority
+        MONGODB_URI: mongodb+srv://${{secrets.DATABASE_ID}}:${{secrets.DATABASE_PW}}@mongodb-primary/?retryWrites=true&w=majority
       run: |
         echo "NODE_ENV=dev" >> ${{ env.NEST_ENV }}
         echo "PORT=${{ secrets.PORT }}" >> ${{ env.NEST_ENV }}

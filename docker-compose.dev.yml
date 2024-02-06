@@ -26,6 +26,7 @@ services:
 
   mongodb-primary:
     image: docker.io/bitnami/mongodb:latest
+    mem_limit: 400m
     hostname: mongodb-primary
     environment:
       - MONGODB_REPLICA_SET_NAME=replicaset

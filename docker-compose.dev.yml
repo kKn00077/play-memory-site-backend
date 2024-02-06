@@ -35,6 +35,8 @@ services:
       - MONGODB_ROOT_USER=admin
       - MONGODB_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
       - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
+    extra_hosts:
+      - "mongodb-primary:127.0.0.1"
     volumes:
       - 'mongodb_master_data:/bitnami/mongodb'
     ports:

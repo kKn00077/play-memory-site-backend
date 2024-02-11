@@ -12,10 +12,10 @@ services:
     command: npm run start:dev gateway
     env_file:
       - .env.dev
-    depends_on:
-      - mongodb-primary
-      # - mongodb-secondary
-      # - mongodb-arbiter
+    # depends_on:
+    #   - mongodb-primary
+    #   - mongodb-secondary
+    #   - mongodb-arbiter
     volumes:
       - app:/usr/src/app
       - /usr/src/app/node_modules
@@ -24,28 +24,28 @@ services:
     networks:
       - default
 
-  mongodb-primary:
-    image: docker.io/bitnami/mongodb:latest
-    mem_limit: 400m
-    hostname: mongodb-primary
-    environment:
-      - MONGODB_REPLICA_SET_NAME=replicaset
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_ROOT_USER=admin
-      - MONGODB_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
-      - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
-    volumes:
-      - 'mongodb_master_data:/bitnami/mongodb'
-    ports:
-      - '27017:27017'
-    networks:
-      - default
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
+  # mongodb-primary:
+  #   image: docker.io/bitnami/mongodb:latest
+  #   mem_limit: 400m
+  #   hostname: mongodb-primary
+  #   environment:
+  #     - MONGODB_REPLICA_SET_NAME=replicaset
+  #     - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+  #     - MONGODB_REPLICA_SET_MODE=primary
+  #     - MONGODB_ROOT_USER=admin
+  #     - MONGODB_ROOT_PASSWORD=Kaaq2TumbGEb9Nm
+  #     - MONGODB_REPLICA_SET_KEY=2IN1XAzLGRJ7I2X
+  #   volumes:
+  #     - 'mongodb_master_data:/bitnami/mongodb'
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - default
+  #   healthcheck:
+  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 3
 
   # ec2 리소스 용량으로 인한 주석처리
   # mongodb-secondary:
@@ -87,5 +87,5 @@ services:
 volumes:
   app:
     driver: local
-  mongodb_master_data:
-    driver: local
+  # mongodb_master_data:
+  #   driver: local

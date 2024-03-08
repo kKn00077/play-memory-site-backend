@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { TempModule } from './temp.module';
+import { PostModule } from './post.module';
 import { RedisService } from '@app/common';
 import { MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
-    const app = await NestFactory.create(TempModule);
+    const app = await NestFactory.create(PostModule);
     const redisService = app.get(RedisService);
 
     app.connectMicroservice<MicroserviceOptions>(

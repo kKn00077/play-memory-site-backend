@@ -10,6 +10,7 @@ import { join } from 'path';
             playground: true, // debug mode
             autoSchemaFile: join(process.cwd(), '/schema.gql'), // 코드 or 데코레이터로 스키마 자동 생성
             sortSchema: true, // 알파벳 순으로 정렬
+            path: '/api',
         }),
     ],
 })

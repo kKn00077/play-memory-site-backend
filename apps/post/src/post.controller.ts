@@ -7,6 +7,6 @@ export class PostController {
 
     @Get()
     getHello(): string {
-        return this.postService.getHello();
+        return 'Hello World!';
     }
 }

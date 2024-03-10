@@ -28,13 +28,13 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "post": {
+    "forum": {
       "type": "application",
-      "root": "apps/post",
+      "root": "apps/forum",
       "entryFile": "main",
-      "sourceRoot": "apps/post/src",
+      "sourceRoot": "apps/forum/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/post/tsconfig.app.json"
+        "tsConfigPath": "apps/forum/tsconfig.app.json"
       }
     }
   }

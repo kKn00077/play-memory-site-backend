@@ -1,17 +1,15 @@
-import { Module } from '@nestjs/common';
-import { PostController } from './post.controller';
-import { PostService } from './post.service';
 import { CommonModule, DatabaseModule, RedisModule } from '@app/common';
-import { ConfigModule } from '@nestjs/config';
-import validationSchema from '@app/common/config/config.validation';
 import baseConfig from '@app/common/config/baseConfig';
+import validationSchema from '@app/common/config/config.validation';
 import databaseConfig from '@app/common/config/databaseConfig';
 import redisConfig from '@app/common/config/redisConfig';
-import { PostResolver } from './graphql/resolvers/post.resolver';
-import { BoardService } from './board/board.service';
+import { Global, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { PostModule } from './post/post.module';
+import { BoardModule } from './board/board.module';
 
+@Global()
 @Module({
-    // TODO imports
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
@@ -24,8 +22,8 @@ import { BoardService } from './board/board.service';
         DatabaseModule,
         RedisModule,
         CommonModule,
+        BoardModule,
+        PostModule,
     ],
-    controllers: [PostController],
-    providers: [PostService, PostResolver, BoardService],
 })
-export class PostModule {}
+export class ForumModule {}

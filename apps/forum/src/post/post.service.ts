@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PaginatedPost, Post } from './graphql/models/post.model';
-import { Board } from './graphql/models/board.model';
+import { PaginatedPost, Post } from '../graphql/models/post.model';
+import { Board } from '../graphql/models/board.model';
 import { Admin, PostArgs } from '@app/common';
 
 @Injectable()

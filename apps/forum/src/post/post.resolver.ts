@@ -1,16 +1,12 @@
 import { Args, Parent, Query, Resolver } from '@nestjs/graphql';
-import { PostService } from '../../post.service';
-import { BoardService } from '../../board/board.service';
-import { PaginatedPost, Post } from '../models/post.model';
-import { Board } from '../models/board.model';
+import { PostService } from './post.service';
+import { PaginatedPost, Post } from '../graphql/models/post.model';
+import { Board } from '../graphql/models/board.model';
 import { PostArgs } from '@app/common';
 
 @Resolver()
 export class PostResolver {
-    constructor(
-        private postService: PostService,
-        private boardService: BoardService,
-    ) {}
+    constructor(private postService: PostService) {}
 
     @Query(() => PaginatedPost)
     async pagenated(@Parent() board: Board, @Args() args: PostArgs) {
@@ -25,10 +21,5 @@ export class PostResolver {
     @Query(() => Post)
     async detail(@Args('id') id: string) {
         return this.postService.findOne(id);
-    }
-
-    @Query(() => [Board])
-    async boards() {
-        return this.boardService.findAll();
     }
 }

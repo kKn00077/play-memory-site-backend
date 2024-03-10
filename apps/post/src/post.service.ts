@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PaginatedPost, Post } from './graphql/models/post.model';
 import { Board } from './graphql/models/board.model';
-import { Admin } from '@app/common';
-import { PostArgs } from './graphql/args/post.args';
+import { Admin, PostArgs } from '@app/common';
 
 @Injectable()
 export class PostService {

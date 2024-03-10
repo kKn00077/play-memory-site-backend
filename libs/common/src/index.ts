@@ -14,10 +14,12 @@ export * from './config/databaseConfig';
 export * from './config/redisConfig';
 export * from './config/config.validation';
 
-export * from './graphql/pagination.args';
-export * from './graphql/search.args';
+export * from './graphql/args/pagination.args';
+export * from './graphql/args/search.args';
 
-export * from './graphql/abstract.model';
-export * from './graphql/pagination.model';
+export * from './graphql/models/abstract/abstract.model';
+export * from './graphql/models/abstract/pagination.model';
 
 export * from './graphql/models/admin.model';
+
+export * from './graphql/args/post/post.args';

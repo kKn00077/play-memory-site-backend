@@ -1,9 +1,9 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, Resolver } from '@nestjs/graphql';
 import { PostService } from '../../post.service';
 import { BoardService } from '../../board/board.service';
 import { PaginatedPost, Post } from '../models/post.model';
 import { Board } from '../models/board.model';
-import { PostArgs } from '../args/post.args';
+import { PostArgs } from '@app/common';
 
 @Resolver()
 export class PostResolver {

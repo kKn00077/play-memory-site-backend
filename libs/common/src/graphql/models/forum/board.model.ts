@@ -1,5 +1,5 @@
-import { AbstractModel } from '@app/common';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { AbstractModel } from '../abstract/abstract.model';
 
 @ObjectType()
 export class Board extends AbstractModel {

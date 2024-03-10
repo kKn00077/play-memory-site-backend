@@ -1,5 +1,5 @@
+import { Board } from '@app/common';
 import { BoardService } from './board.service';
-import { Board } from '../graphql/models/board.model';
 import { Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
 

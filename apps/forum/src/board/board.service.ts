@@ -1,5 +1,5 @@
+import { Board } from '@app/common';
 import { Injectable } from '@nestjs/common';
-import { Board } from '../graphql/models/board.model';
 
 @Injectable()
 export class BoardService {

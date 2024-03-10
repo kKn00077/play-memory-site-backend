@@ -1,6 +1,8 @@
-import { AbstractModel, Admin, Paginated } from '@app/common';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Board } from './board.model';
+import { AbstractModel } from '../abstract/abstract.model';
+import { Admin } from '../admin.model';
+import { Paginated } from '../abstract/pagination.model';
 
 @ObjectType()
 export class Post extends AbstractModel {

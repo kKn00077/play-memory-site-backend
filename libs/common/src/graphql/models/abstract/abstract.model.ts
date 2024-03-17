@@ -5,9 +5,9 @@ export abstract class AbstractModel {
     @Field(() => ID, {})
     id: string;
 
-    @Field(() => Date)
+    @Field(() => String)
     createdAt: Date;
 
-    @Field(() => Date)
+    @Field(() => String)
     updatedAt: Date;
 }

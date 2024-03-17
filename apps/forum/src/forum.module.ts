@@ -1,4 +1,4 @@
-import { CommonModule, DatabaseModule, RedisModule } from '@app/common';
+import { CommonModule } from '@app/common';
 import baseConfig from '@app/common/config/baseConfig';
 import validationSchema from '@app/common/config/config.validation';
 import databaseConfig from '@app/common/config/databaseConfig';
@@ -19,8 +19,6 @@ import { BoardModule } from './board/board.module';
             load: [baseConfig, databaseConfig, redisConfig],
             validationSchema: validationSchema(true, true, true),
         }),
-        DatabaseModule,
-        RedisModule,
         CommonModule,
         BoardModule,
         PostModule,

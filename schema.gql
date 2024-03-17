@@ -4,7 +4,7 @@
 
 type Admin {
   birthday: DateTime!
-  createdAt: DateTime!
+  createdAt: String!
   email: String!
   gender: String!
   id: ID!
@@ -12,15 +12,15 @@ type Admin {
   name: String!
   password: String!
   phone: String!
-  updatedAt: DateTime!
+  updatedAt: String!
 }
 
 type Board {
-  createdAt: DateTime!
+  createdAt: String!
   description: String
   id: ID!
   name: String!
-  updatedAt: DateTime!
+  updatedAt: String!
 }
 
 """
@@ -40,10 +40,10 @@ type Post {
   admin: Admin!
   board: Board!
   contents: String!
-  createdAt: DateTime!
+  createdAt: String!
   id: ID!
   title: String!
-  updatedAt: DateTime!
+  updatedAt: String!
   visibility: Boolean!
 }
 

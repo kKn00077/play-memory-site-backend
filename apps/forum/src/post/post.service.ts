@@ -5,8 +5,6 @@ import { Admin, Board, PaginatedPost, Post, PostArgs } from '@app/common';
 export class PostService {
     // TODO 더미 데이터
     async paginate(args: PostArgs): Promise<PaginatedPost> {
-        console.log(args);
-
         const paginate = new PaginatedPost();
         paginate.nodes = await this.findAll();
         paginate.totalCount = paginate.nodes.length;
